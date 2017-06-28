@@ -37,18 +37,11 @@ function upload(req,res){
 		return;
 	}
 	let form = new formidable.IncomingForm();
-	form.on('field',(field, value)=>{
-		console.log(field);
-		console.log(value);
-	});
-	form.on('file',(name,file)=>{
-		console.log(name);
-		console.log(file);
-	});
-	form.on('end',()=>{
+	form.parse(req,(err,fields,files)=>{
+		console.log(fields);
+		console.log(files);
 		res.end('uploading complete!');
 	});
-	form.parse(req);
 }
 function isFormData (req) {
 	let type = req.headers['content-type'] || '';
