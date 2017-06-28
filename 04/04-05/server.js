@@ -8,7 +8,7 @@ var server = http.createServer((req,res)=>{
 				show(res);
 				break;
 			case 'POST':
-				add(res);
+				add(req,res);
 				break;
 			default:
 				badRequest(res);
@@ -35,7 +35,7 @@ function show(res){
 		</form>
 	</body>
 	</html>`;
-	res.setHeader('Content-Type', 'text/plain');
+	res.setHeader('Content-Type', 'text/html');
 	res.setHeader('Content-Length', Buffer.byteLength(html));
 	res.end(html);
 }
