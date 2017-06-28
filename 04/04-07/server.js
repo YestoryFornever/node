@@ -42,6 +42,10 @@ function upload(req,res){
 		console.log(files);
 		res.end('uploading complete!');
 	});
+	form.on('progress',(bytesReceived, bytesExpected)=>{
+		let percent = Math.floor(bytesReceived/bytesExpected*100);
+		console.log(percent);
+	});
 }
 function isFormData (req) {
 	let type = req.headers['content-type'] || '';
