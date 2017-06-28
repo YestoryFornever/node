@@ -10,14 +10,19 @@ let server = http.createServer(( req, res )=>{
 	let path = join( root, url.pathname );
 	let stream = fs.createReadStream(path);
 	/**普通方法
-	 *stream.on('data',(chunk)=>{
+	stream.on('data',(chunk)=>{
 		res.write(chunk);
 	});
 	stream.on('end',()=>{
 		res.end();
-	});*/
-	//pipe 优化后的方法
+	});
+	*/
+	/**pipe 优化后的方法*/
 	stream.pipe(res);
+	stream.on('error',(err)=>{
+		res.statusCode = 500;
+		res.end('Internal Server Error');//服务器错误
+	});
 });
 server.listen(9999);
 console.log(9999);
