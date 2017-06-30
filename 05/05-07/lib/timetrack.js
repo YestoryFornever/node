@@ -6,7 +6,7 @@ exports.sendHtml = (res,html)=>{
 	res.end(html);
 };
 
-exports.parseReceviedData = (req,cb)=>{
+exports.parseReceivedData = (req,cb)=>{
 	var body = '';
 	req.setEncoding('utf8');
 	req.on('data',(chunk)=>{
@@ -22,38 +22,50 @@ exports.actionForm = (id,path,label)=>{
 	var html = `<form method="POST" action="${path}">
 		<input type="hidden" name="id" value="${id}"/>
 		<input type="submit" value="${label}"/>
+		</form>
 	`;
 	return html;
 };
 
 exports.add = (db,req,res)=>{
-	exports.parseReceviedData(req,(work)=>{
-		db.query("DELETE FROM work WHERE id=?"),
+	exports.parseReceivedData(req,(work)=>{
+		db.query("INSERT INTO work (hours, date, description) VALUES (?, ?, ?)",
+		[work.hours, work.date, work.description],
+		(err)=>{
+			if(err) throw err;
+			exports.show(db,res);
+		});
+	});
+};
+
+exports.delete = (db,req,res)=>{
+	exports.parseReceivedData(req,(work)=>{
+		db.query("DELETE FROM work WHERE id=?",
 		[work.id],
 		(err)=>{
 			if(err) throw err;
 			exports.show(db,res);
-		}
+		});
 	});
 };
 
 exports.archive = (db,req,res)=>{
-	exports.parseReceviedData(req,(word)=>{
-		db.query("UPDATE work SET archived=1 WHERE id=?"),
+	exports.parseReceivedData(req,(work)=>{
+		db.query("UPDATE work SET archived=1 WHERE id=?",
 		[work.id],
 		(err)=>{
 			if(err) throw err;
 			exports.show(db,res);
-		}
+		});
 	});
 };
 
 exports.show = (db,res,showArchived)=>{
 	var query = `SELECT * FROM work 
-		WHERE archived=?
+		WHERE archived=? 
 		ORDER BY date DESC`;
 	var archiveValue = (showArchived)?1:0;
-	db.query(query,[archivedValue],(err,rows)=>{
+	db.query(query,[archiveValue],(err,rows)=>{
 		if(err) throw err;
 		html = (showArchived)?'':'<a href="/archived">Archived Work</a><br/>';
 		html += exports.workHitlistHtml();
@@ -71,5 +83,31 @@ exports.workHitlistHtml = (rows)=>{
 	for(var i in rows){
 		html += '<tr>';
 		html += '<td>' + rows[i].date + '</td>';
+		html += '<td>' + row[i].hours + '</td>';
+		html += '<td>' + row[i].description + '</td>';
+		if(!row[i].archived){
+			html += '<td>' + exports.workAchiveForm(row[i].id) + '</td>';
+		}
+		html += '<td>' + exports.workDeleteForm(row[i].id) + '</td>';
 	}
+	html += '</table>';
+	return html;
 };
+
+exports.workFormHtml = ()=>{
+	return `<form method="POST" action="/">
+		<p>Date (YYYY-MM-DD):<br/><input name="date" type="text"></p>
+		<p>Hours worked:<br/><input name="hours" type="text"></p>
+		<p>description:<br/>
+		<textarea name="description"></textarea></p>
+		<input type="submit" value="Add" />
+		</form>`;
+};
+
+exports.workAchiveForm = (id)=>{
+	return exports.actionForm(id,'/archive','Archive');
+}
+
+exports.workDeleteForm = (id)=>{
+	return exports.actionForm(id,'/delete','DELETE');
+}

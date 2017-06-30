@@ -4,8 +4,8 @@ var mysql = require('mysql');
 
 var db = mysql.createConnection({
 	host:'127.0.0.1',
-	user:'myuser',
-	password:'mypassword',
+	user:'root',
+	password:'root',
 	database:'timetrack'
 });
 
@@ -36,6 +36,7 @@ var server = http.createServer((req,res)=>{
 		break;
 	}
 });
+
 db.query(
 	`CREATE TABLE IF NOT EXISTS work (
 	id INT(10) NOT NULL AUTO_INCREMENT, 
