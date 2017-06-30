@@ -68,7 +68,7 @@ exports.show = (db,res,showArchived)=>{
 	db.query(query,[archiveValue],(err,rows)=>{
 		if(err) throw err;
 		html = (showArchived)?'':'<a href="/archived">Archived Work</a><br/>';
-		html += exports.workHitlistHtml();
+		html += exports.workHitlistHtml(rows);
 		html += exports.workFormHtml();
 		exports.sendHtml(res,html);
 	});
@@ -83,12 +83,13 @@ exports.workHitlistHtml = (rows)=>{
 	for(var i in rows){
 		html += '<tr>';
 		html += '<td>' + rows[i].date + '</td>';
-		html += '<td>' + row[i].hours + '</td>';
-		html += '<td>' + row[i].description + '</td>';
-		if(!row[i].archived){
-			html += '<td>' + exports.workAchiveForm(row[i].id) + '</td>';
+		html += '<td>' + rows[i].hours + '</td>';
+		html += '<td>' + rows[i].description + '</td>';
+		if(!rows[i].archived){
+			html += '<td>' + exports.workArchiveForm(rows[i].id) + '</td>';
 		}
-		html += '<td>' + exports.workDeleteForm(row[i].id) + '</td>';
+		html += '<td>' + exports.workDeleteForm(rows[i].id) + '</td>';
+		html += '</tr>';
 	}
 	html += '</table>';
 	return html;
@@ -104,7 +105,7 @@ exports.workFormHtml = ()=>{
 		</form>`;
 };
 
-exports.workAchiveForm = (id)=>{
+exports.workArchiveForm = (id)=>{
 	return exports.actionForm(id,'/archive','Archive');
 }
 
