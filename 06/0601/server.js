@@ -1,8 +1,5 @@
 let connect = require('connect');
-let app = connect();
-app.use(logger);
-app.use(hello);
-app.listen(9999);
+let app = connect().use(logger).use(hello).listen(9999);
 console.log(9999);
 
 function logger(req,res,next) {
