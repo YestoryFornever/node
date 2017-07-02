@@ -1,8 +1,8 @@
 let connect = require('connect');
 connect()
 .use(logger)
-.use(restrict)
-.use(hello)
+.use(admin)
+// .use(hello)
 .listen(9999);
 console.log(9999);
 
@@ -29,4 +29,16 @@ function restrict(req,res,next) {
 		if(err) return next(err);
 		next();
 	});
+}
+
+function admin(req,res,next) {
+	switch(req.url){
+		case '/':
+			res.end('try /users');
+			break;
+		case '/users':
+			res.setHeader('Content-Type','application/json');
+			res.end(JSON.stringify(['tobi','loki','jane']));
+			break;
+	}
 }
