@@ -1,7 +1,7 @@
 let fs = require('fs');
 
 //获取文件信息
-fs.stat('input.txt',(err,stats)=>{
+fs.stat('../input.txt',(err,stats)=>{
 	if(err) return console.error(err);
 	console.log(stats);
 	console.log(stats.isFile());			//	如果是文件返回 true，否则返回 false。
