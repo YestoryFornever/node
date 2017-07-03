@@ -26,7 +26,8 @@ fs.mkdirR = function(dirPath, mode, callback) {
   });
 };
 
-fs.mkdirR('./tmp/foo/bar/baz',0777,(err)=>{
+//xxx.txt会作为一个目录（而不是文件）被创建
+fs.mkdirR('./tmp/foo/bar/baz/xxx.txt',0777,(err)=>{
 	if(err) console.error(err)
 	else console.log('pow!');
 });
