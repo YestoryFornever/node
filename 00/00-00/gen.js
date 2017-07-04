@@ -37,12 +37,15 @@ let deleteFolderRecursive = (path)=>{
 };
 //递归删除输出文件夹
 deleteFolderRecursive(`./${OutPut}/`);
-
-let copyFile = (input,output)=>{
-	fs.createReadStream(input).pipe(fs.createWriteStream(output));
-}
-console.log(`./${InPut}/`,`./${OutPut}/`);
-copyFile(`./${InPut}/`,`./${OutPut}/`);
+//递归复制一份目录
+let ncp = require('ncp').ncp;
+ncp.limit = 16;
+ncp(`./${InPut}/`,`./${OutPut}/`, function (err) {
+	if (err) {
+		return console.error(err);
+	}
+	console.log('done!');
+});
 
 /*console.log('查看/generator-module/目录');
 fs.readdir('./generator-module/',(err,files)=>{
