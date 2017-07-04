@@ -9,6 +9,7 @@
   "author": "gsj",
   "license": "ISC",
   "dependencies": {
+    "ncp": "^2.0.0",
     "rmdir": "^1.2.0"
   }
 }
