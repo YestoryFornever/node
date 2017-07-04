@@ -63,34 +63,27 @@ function renameDir(dir,oldFlag,newFlag) {//替换文件名
 		currentFile = files[f];
 		path = dir + '/' + currentFile;
 		file = fs.statSync(path);
-		console.log(path,1);
-		replaceStream(path,()=>{
-			newPath = path.replace(reg,newFlag);
-			fs.renameSync(path, newPath);
-			if (file.isDirectory()) {
-				renameDir(newPath,oldFlag,newFlag);
-			}
-		});
+
+		newPath = path.replace(reg,newFlag);
+		fs.renameSync(path, newPath);
+		replaceContent(newPath);
+		if (file.isDirectory()) {
+			renameDir(newPath,oldFlag,newFlag);
+		}
 	}
 }
-
-function replaceStream(path,callback){
-	console.log(path,2);
+function replaceContent(path){
 	fs.readFile(path, 'utf8', function (err,data) {
 		if (err) {
-			console.log(err);
-			callback();
-		}else{
-			console.log(path,3);
-			var result = data
-				.replace(new RegExp(FileName,'g'), fileName)
-				.replace(new RegExp(HumpName,'g'), humpName)
-				.replace(new RegExp(CapName,'g'), capName);
-			console.log(result);
-			fs.writeFile(path, result, 'utf8', function (err) {
-				if (err) return console.log(err);
-				callback();
-			});
+			return console.log(err);
 		}
+		var result = data
+			.replace(new RegExp(FileName,'g'), fileName)
+			.replace(new RegExp(HumpName,'g'), humpName)
+			.replace(new RegExp(CapName,'g'), capName);
+		console.log(result);
+		fs.writeFile(path, result, 'utf8', function (err) {
+			if (err) return console.log(err);
+		});
 	});
 }
