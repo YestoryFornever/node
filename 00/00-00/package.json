@@ -1,0 +1,14 @@
+{
+  "name": "gens",
+  "version": "1.0.0",
+  "description": "gen",
+  "main": "gen.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "gsj",
+  "license": "ISC",
+  "dependencies": {
+    "rmdir": "^1.2.0"
+  }
+}
