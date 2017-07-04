@@ -9,7 +9,9 @@
   "author": "gsj",
   "license": "ISC",
   "dependencies": {
+    "fs-extra": "^3.0.1",
     "ncp": "^2.0.0",
-    "rmdir": "^1.2.0"
+    "rmdir": "^1.2.0",
+    "stream-replace": "^1.0.0"
   }
 }

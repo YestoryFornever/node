@@ -1,4 +1,6 @@
-let fs = require('fs');
+let fs = require('fs'),
+	path = require('path'),
+	replace = require('stream-replace');
 
 var _argv = process.argv.slice(2);
 let fileName = _argv[0];
@@ -27,9 +29,9 @@ let deleteFolderRecursive = (path)=>{
 		fs.readdirSync(path).forEach(function(file,index){
 			var curPath = path + "/" + file;
 			if(fs.lstatSync(curPath).isDirectory()) { // recurse
-				deleteFolderRecursive(curPath);
+					deleteFolderRecursive(curPath);
 			} else { // delete file
-				fs.unlinkSync(curPath);
+					fs.unlinkSync(curPath);
 			}
 		});
 		fs.rmdirSync(path);
@@ -42,17 +44,53 @@ let ncp = require('ncp').ncp;
 ncp.limit = 16;
 ncp(`./${InPut}/`,`./${OutPut}/`, function (err) {
 	if (err) {
-		return console.error(err);
+			return console.error(err);
 	}
 	console.log('done!');
+	renameDir(`./${OutPut}/`,'xxx',fileName)
 });
 
-/*console.log('查看/generator-module/目录');
-fs.readdir('./generator-module/',(err,files)=>{
-	if(err){
-		return console.error(err);
+function renameDir(dir,oldFlag,newFlag) {//替换文件名
+	var files = fs.readdirSync(dir),
+		f,
+		currentFile,
+		path,
+		newPath,
+		file,
+		reg =  new RegExp(oldFlag,"g");
+
+	for (f = 0; f < files.length; f++) {
+		currentFile = files[f];
+		path = dir + '/' + currentFile;
+		file = fs.statSync(path);
+		console.log(path,1);
+		replaceStream(path,()=>{
+			newPath = path.replace(reg,newFlag);
+			fs.renameSync(path, newPath);
+			if (file.isDirectory()) {
+				renameDir(newPath,oldFlag,newFlag);
+			}
+		});
 	}
-	files.forEach((file)=>{
-		console.log(file);
+}
+
+function replaceStream(path,callback){
+	console.log(path,2);
+	fs.readFile(path, 'utf8', function (err,data) {
+		if (err) {
+			console.log(err);
+			callback();
+		}else{
+			console.log(path,3);
+			var result = data
+				.replace(new RegExp(FileName,'g'), fileName)
+				.replace(new RegExp(HumpName,'g'), humpName)
+				.replace(new RegExp(CapName,'g'), capName);
+			console.log(result);
+			fs.writeFile(path, result, 'utf8', function (err) {
+				if (err) return console.log(err);
+				callback();
+			});
+		}
 	});
-});*/
+}
