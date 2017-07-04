@@ -2,17 +2,19 @@ let fs = require('fs'),
 	path = require('path'),
 	replace = require('stream-replace');
 
-var _argv = process.argv.slice(2);
-let fileName = _argv[0];
-let InPutARGV = _argv[1];
+let _argv = process.argv.slice(2),
+	fileName = _argv[0],
+	InPutARGV = _argv[1];
 
 //替换字符串格式
 //羊肉串
-let FileName = '<%= name %>';
+const FileName = '<%= name %>';
 //驼峰
-let HumpName = '<%= hump %>';
+const HumpName = '<%= hump %>';
 //首字母大写
-let CapName  = '<%= upCaseName %>';
+const CapName  = '<%= upCaseName %>';
+//目录标识符
+const DirFlag = 'xxx';
 //模板目录
 let InPut    = InPutARGV||'generator';
 //输出目录
@@ -47,10 +49,10 @@ ncp(`./${InPut}/`,`./${OutPut}/`, function (err) {
 			return console.error(err);
 	}
 	console.log('done!');
-	renameDir(`./${OutPut}/`,'xxx',fileName)
+	renameDir(`./${OutPut}/`, DirFlag, fileName)
 });
 
-function renameDir(dir,oldFlag,newFlag) {//替换文件名
+function renameDir(dir,oldFlag,newFlag) {//递归目录
 	var files = fs.readdirSync(dir),
 		f,
 		currentFile,
@@ -63,15 +65,17 @@ function renameDir(dir,oldFlag,newFlag) {//替换文件名
 		currentFile = files[f];
 		path = dir + '/' + currentFile;
 		file = fs.statSync(path);
-
 		newPath = path.replace(reg,newFlag);
-		fs.renameSync(path, newPath);
-		replaceContent(newPath);
+
+		fs.renameSync(path, newPath);//替换文件名
+		replaceContent(newPath);//异步替换文件内容
+
 		if (file.isDirectory()) {
 			renameDir(newPath,oldFlag,newFlag);
 		}
 	}
 }
+
 function replaceContent(path){
 	fs.readFile(path, 'utf8', function (err,data) {
 		if (err) {
