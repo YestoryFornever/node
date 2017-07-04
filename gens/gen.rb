@@ -1,4 +1,6 @@
-require "pathname"
+#-*- coding: UTF-8 -*-
+
+require 'pathname'
 require "fileutils"
 
 fileName = ARGV.first.dup # ARGV[0]
@@ -28,7 +30,7 @@ FileUtils.copy_entry(InPut,OutPut)
 
 puts "开始替换文件内容..."
 Dir["#{OutPut}/**/**.*"].each {|f|
-	text = File.read(f)
+	text = File.read(f).force_encoding("UTF-8")
 	replace = text.gsub /<%= ((name)|(hump)|(upCaseName)) %>/ do |nm|
 		if nm==FileName
 			fileName
