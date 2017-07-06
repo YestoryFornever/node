@@ -12,4 +12,16 @@ export class Condition{
 
 	orderBy:string;
 	sortType:string;
+	radio:string;
+	checkbox:string;
+	checkboxPattern:Array<object> = [
+		{
+			name:'有效',
+			id:'1'
+		},
+		{
+			name:'无效',
+			id:'0'
+		},
+	];
 }

@@ -58,6 +58,24 @@
 					</div>
 				</div>
 			</div>
+			<div class="condition">
+				<label class="text-right">单选</label>
+				<div class="condition-input">
+					<div class="btn-group">
+								<label class="btn btn-mint" [(ngModel)]="conditions.radio"
+						btnRadio="">全部</label>
+								<label class="btn btn-mint" [(ngModel)]="conditions.radio" btnRadio="1">有效</label>
+								<label class="btn btn-mint" [(ngModel)]="conditions.radio"
+						btnRadio="0">无效</label>
+							</div>
+				</div>
+			</div>
+			<div class="condition">
+				<label class="text-right">复选</label>
+				<div class="condition-input">
+					<btns [(btnsModel)]="conditions.checkbox" [btnsPattern]="conditions.checkboxPattern"></btns>
+				</div>
+			</div>
 			<div style="clear:both;"></div>
 		</div>
 	</div>
