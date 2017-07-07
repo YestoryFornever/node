@@ -18,9 +18,12 @@ app.use(bodyParser.urlencoded({
 }));*/
 
 connect()
+// .use(bodyParser.json())
 .use(bodyParser.urlencoded({extended:true}))
 .use((req,res)=>{
-	res.end('注册新用户：' + req.body.username)
+	console.log(req.body);
+	console.log(req.files);
+	res.end('new user:' + req.body.username)
 })
 .listen(9999);
 console.log(9999);
