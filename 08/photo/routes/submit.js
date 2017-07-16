@@ -18,7 +18,7 @@ module.exports = (dir)=>{
 				path:img.name
 			},(err)=>{
 				if(err) return next(err);
-				res.redirect('/');
+				res.redirect('/photos');
 			});
 		})
 	}
