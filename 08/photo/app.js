@@ -12,6 +12,7 @@ var routes = require('./routes/index');
 var users = require('./routes/users');
 var photos = require('./routes/photos');
 var submits = require('./routes/submit');
+var downloads = require('./routes/download');
 
 var app = express();
 
@@ -23,9 +24,12 @@ app.set('photos',__dirname+'/public/photos');//图片上传目录
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
+// 解析json
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
+// cookie
 app.use(cookieParser());
+// 创建静态服务器
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
@@ -33,6 +37,7 @@ app.use('/', routes);
 app.use('/photos',photos);
 console.log(app.get('photos'));
 app.post('/photos/upload', multipartMiddleware, submits(app.get('photos')));
+app.get('/photo/:id/download', downloads(app.get('photos')));
 
 app.use('/users', users);
 
