@@ -37,7 +37,7 @@ app.use('/', routes);
 app.use('/photos',photos);
 console.log(app.get('photos'));
 app.post('/photos/upload', multipartMiddleware, submits(app.get('photos')));
-app.get('/photo/:id/download', downloads(app.get('photos')));
+app.get('/photos/:id/download', downloads(app.get('photos')));
 
 app.use('/users', users);
 

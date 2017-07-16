@@ -10,7 +10,7 @@ module.exports = (dir)=>{
 			if(err) return next(err);
 			console.log(photo.path);
 			var path = join(dir,photo.path);
-			res.sendfile(path);
+			res.sendFile(path);
 		})
 	}
 };
