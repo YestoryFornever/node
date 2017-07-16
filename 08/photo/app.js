@@ -5,16 +5,20 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
+var multipart = require('connect-multiparty');
+var multipartMiddleware = multipart();
+
 var routes = require('./routes/index');
 var users = require('./routes/users');
 var photos = require('./routes/photos');
+var submits = require('./routes/submit');
 
 var app = express();
 
 // 视图引擎配置
 app.set('views', path.join(__dirname, 'views'));//视图目录
 app.set('view engine', 'ejs');//视图模板
-app.set('photos',__dirname+'public/photos');//图片上传目录
+app.set('photos',__dirname+'/public/photos');//图片上传目录
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
@@ -25,14 +29,18 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
-app.use('/photos',photos.list);
+
+app.use('/photos',photos);
+console.log(app.get('photos'));
+app.post('/photos/upload', multipartMiddleware, submits(app.get('photos')));
+
 app.use('/users', users);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
-  var err = new Error('Not Found');
-  err.status = 404;
-  next(err);
+	var err = new Error('not found');
+	err.status = 404;
+	next(err);
 });
 
 // error handlers
@@ -40,23 +48,23 @@ app.use(function(req, res, next) {
 // development error handler
 // will print stacktrace
 if (app.get('env') === 'development') {
-  app.use(function(err, req, res, next) {
-    res.status(err.status || 500);
-    res.render('error', {
-      message: err.message,
-      error: err
-    });
-  });
+	app.use(function(err, req, res, next) {
+		res.status(err.status || 500);
+		res.render('error', {
+			message: err.message,
+			error: err
+		});
+	});
 }
 
 // production error handler
 // no stacktraces leaked to user
 app.use(function(err, req, res, next) {
-  res.status(err.status || 500);
-  res.render('error', {
-    message: err.message,
-    error: {}
-  });
+	res.status(err.status || 500);
+	res.render('error', {
+		message: err.message,
+		error: {}
+	});
 });
 
 

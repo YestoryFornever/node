@@ -19,4 +19,14 @@ router.get('/', function(req, res, next) {
 	});
 });
 
-module.exports.list = router;
+router.get('/upload', function(req, res, next) {
+	res.render('photos/upload',{
+		title:'Photos Upload',
+	});
+});
+
+/*router.post('/upload',(req,res,next)=>{
+	console.log('upload');
+});*/
+
+module.exports = router;
