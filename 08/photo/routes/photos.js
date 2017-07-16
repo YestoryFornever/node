@@ -1,3 +1,6 @@
+var express = require('express');
+var router = express.Router();
+
 var photos = [];
 photos.push({
 	name:'Node.js Logo',
@@ -7,9 +10,13 @@ photos.push({
 	name:'Ryan SB',
 	path:'http://nodejs.org/images/ryan-speaker.jpg'
 });
-exports.list = (req,res)=>{
+
+/* GET home page. */
+router.get('/', function(req, res, next) {
 	res.render('photos',{
 		title:'Photos',
 		photos:photos
 	});
-};
+});
+
+module.exports.list = router;
