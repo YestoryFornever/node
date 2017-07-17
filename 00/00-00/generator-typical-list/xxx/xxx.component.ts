@@ -2,6 +2,7 @@
 import { Component, OnInit, ViewChild, AfterViewChecked, ChangeDetectorRef } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Observable } from 'rxjs/Observable';
+import { ActivatedRoute, Router, Params } from '@angular/router';
 
 import { <%= upCaseName %>Service } from './<%= name %>.service';
 
@@ -23,11 +24,16 @@ import { Item } from './classes/item.class';
 export class <%= upCaseName %>Component implements OnInit{
 	constructor(
 		private <%= hump %>Service:<%= upCaseName %>Service,
-		private changeDetectorRef:ChangeDetectorRef
+		private changeDetectorRef:ChangeDetectorRef,
+		private activatedRoute:ActivatedRoute,
+        private router:Router
 	){}
 	ngOnInit(){
 		this.getList();
 		this.asynForAsyn();
+		this.activatedRoute.params.forEach((params:Params)=>{
+			//let id = +params['id'];
+		});
 	}
 	
 	xxx:any;
@@ -58,7 +64,7 @@ export class <%= upCaseName %>Component implements OnInit{
 		}).mergeMap((token:string) => this.forAsynTypeAhead.getStates(token));
 	}
 
-	condition:Condition = new Condition();
+	conditions:Condition = new Condition();
 	pageParams:any={
 		maxSize:5,
 		totalItems:0,
