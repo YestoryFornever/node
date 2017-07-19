@@ -49,3 +49,13 @@ User.prototype.hashPassword = (fn)=>{
 		});
 	});
 };
+
+var tobi = new User({
+	name:'Tobi',
+	pass:'im a ferret',
+	age:'2'
+});
+tobi.save((err)=>{
+	if(err) throw err;
+	console.log('user id %d', tobi.id);
+})
