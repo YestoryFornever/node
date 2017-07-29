@@ -67,6 +67,10 @@ User.getByName = function(name,fn){//通过用户名获取用户数据
 };
 
 User.getId = function(name,fn) {//通过用户id获取用户数据
+	db.get('user:id:'+name,fn);
+}
+
+User.get = function(id,fn){
 	db.hgetall('user' + id,(err,user)=>{
 		if(err) return fn(err);
 		fn(null,new User(user));

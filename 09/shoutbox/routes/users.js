@@ -13,9 +13,7 @@ router.get('/register', function(req, res, next) {
 });
 
 router.post('/register', function(req, res, next) {
-	console.log(req.body);
-	console.log(req.body.user[name]);
-	var data = req.body.user;
+	var data = req.body;
 	User.getByName(data.name, function(err, user){
 		if(err) return next(err);
 		if(user.id){
