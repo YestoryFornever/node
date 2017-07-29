@@ -5,6 +5,7 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var session = require('express-session');
+var user = require('./lib/middleware/user');
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
@@ -27,9 +28,10 @@ app.use(session({
 	secret: 'xxxx',
 	resave: false,
 	saveUninitialized: true,
-	cookie: { secure: true }}));
-app.use(messages);
+	cookie: { secure: false }}));//这里非常重要，如果设为true，session存储不会成功
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(user);
+app.use(messages);
 
 app.use('/', routes);
 app.use('/users', users);

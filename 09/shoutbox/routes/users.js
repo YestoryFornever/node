@@ -44,7 +44,9 @@ router.post('/login',function(req,res,next){
 		if(err) return next(err);
 		if(user){
 			req.session.uid = user.id;
-			res.redirect('./');
+			console.log(user.id);
+			console.log(req.session);
+			res.redirect('./login');
 		}else{
 			res.error("不让你进，你这个大屁眼子");
 			res.redirect('back');

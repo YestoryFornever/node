@@ -60,8 +60,10 @@ tobi.save((err)=>{
 });*/
 
 User.getByName = function(name,fn){//通过用户名获取用户数据
+	// console.log(name);
 	User.getId(name,function(err,id){//通过用户名获取用户id
 		if(err) return fn(err);
+		// console.log(id);
 		User.get(id,fn);
 	});
 };
@@ -71,8 +73,10 @@ User.getId = function(name,fn) {//通过用户id获取用户数据
 }
 
 User.get = function(id,fn){
-	db.hgetall('user' + id,(err,user)=>{
+	// console.log(id);
+	db.hgetall('user:' + id,(err,user)=>{
 		if(err) return fn(err);
+		// console.log(user);
 		fn(null,new User(user));
 	});
 }
