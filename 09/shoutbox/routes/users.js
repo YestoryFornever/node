@@ -28,10 +28,35 @@ router.post('/register', function(req, res, next) {
 			user.save(function(err){
 				if(err) return next(err);
 				req.session.uid = user.id;
-				res.redirect('/');
+				res.redirect('./');
 			});
 		}
 	})
+});
+
+router.get('/login',function(req,res){
+	res.render('login',{title:'Login'});
+});
+
+router.post('/login',function(req,res,next){
+	var data = req.body;
+	User.authenticate(data.name,data.pass,function(err,user){
+		if(err) return next(err);
+		if(user){
+			req.session.uid = user.id;
+			res.redirect('./');
+		}else{
+			res.error("不让你进，你这个大屁眼子");
+			res.redirect('back');
+		}
+	});
+});
+
+router.get('/logout',function(req,res){
+	req.session.destroy((err)=>{
+		if(err) throw err;
+		res.redirect('./');
+	});
 });
 
 module.exports = router;
