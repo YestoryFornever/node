@@ -2,6 +2,9 @@ let basicAuth = require('basic-auth-connect');
 var User = require('../lib/user');
 var express = require('express');
 var router = express.Router();
+var validate = require('../lib/middleware/validate');
+var Entry = require('../lib/entry');
+var page = require('../lib/middleware/page');
 
 /* GET home page. */
 router.get('/user/:id', function(req,res,next){
@@ -11,9 +14,6 @@ router.get('/user/:id', function(req,res,next){
 		res.json(user.toJson());
 	})
 });
-
-var validate = require('../lib/middleware/validate');
-var Entry = require('../lib/entry');
 
 router.post('/entry',
 	validate.required('title'),
@@ -37,6 +37,14 @@ router.post('/entry',
 		})
 	}
 );
+
+router.get('/entries/:page?',page(Entry.count, 5), function(req, res, next) {
+	var page = req.page;
+	Entry.getRange(page.from, page.to, (err,entries)=>{
+		if(err) return next(err);
+		res.json(entries);
+	});
+});
 
 exports.route = router;
 // exports.auth = basicAuth('admin','pwdpwd');
