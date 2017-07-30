@@ -13,6 +13,8 @@ var entries = require('./routes/entries');
 
 var messages = require('./lib/messages');
 
+var api = require('./routes/api')
+
 var app = express();
 
 // view engine setup
@@ -31,12 +33,14 @@ app.use(session({
 	saveUninitialized: true,
 	cookie: { secure: false }}));//这里非常重要，如果设为true，session存储不会成功
 app.use(express.static(path.join(__dirname, 'public')));
+app.use('/api',api.auth);
 app.use(user);
 app.use(messages);
 
 app.use('/', users);
 app.use('/index', routes);
 app.use('/entries',entries);
+app.use('/api',api.route);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
