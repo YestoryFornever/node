@@ -35,7 +35,7 @@ router.post('/post',
 
 	entry.save((err)=>{
 		if(err) return next(err);
-		res.redirect('./');
+		res.redirect('.');
 	})
 });
 
