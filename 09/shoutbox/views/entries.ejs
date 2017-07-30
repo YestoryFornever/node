@@ -7,7 +7,7 @@
 </head>
 <body>
 	<% include menu %>
-
+	
 	<% entries.forEach(function(entry) { %>
 		<ul class="entry">
 			<li>
@@ -17,5 +17,7 @@
 			</li>
 		</ul>
 	<% }); %>
+
+	<% include pager %>
 </body>
 </html>
