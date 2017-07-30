@@ -42,7 +42,15 @@ router.get('/entries/:page?',page(Entry.count, 5), function(req, res, next) {
 	var page = req.page;
 	Entry.getRange(page.from, page.to, (err,entries)=>{
 		if(err) return next(err);
-		res.json(entries);
+		res.format({
+			json: function(){
+				// res.json(entries);
+				res.send(entries);
+			},
+			xml: function(){
+				res.render('entries/xml', { entries: entries });
+			}
+		});
 	});
 });
 
