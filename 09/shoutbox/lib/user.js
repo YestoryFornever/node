@@ -92,3 +92,10 @@ User.authenticate = function(name, pass, fn){//用户认证
 		})
 	})
 }
+
+User.prototype.toJson = function(){
+	return {
+		id:this.id,
+		name:this.name
+	}
+}

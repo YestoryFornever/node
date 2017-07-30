@@ -5,11 +5,10 @@ var router = express.Router();
 
 /* GET home page. */
 router.get('/user/:id', function(req,res,next){
-	console.log(":id");
 	User.get(req.params.id,(err,user)=>{
 		if(err) return next(err);
 		if(!user.id) return res.send(404);
-		res.json(user);
+		res.json(user.toJson());
 	})
 });
 
