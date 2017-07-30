@@ -42,6 +42,14 @@ app.use('/index', routes);
 app.use('/entries',entries);
 app.use('/api',api.route);
 
+if (app.get('env') === 'development') {
+	app.get('/index/dev/error',(req,res,next)=>{
+		var err = new Error('database error');
+		err.type = 'database';
+		next(err);
+	});
+}
+
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
 	var err = new Error('Not Found');
@@ -73,11 +81,28 @@ app.use(function(req, res, next) {
 // will print stacktrace
 if (app.get('env') === 'development') {
 	app.use(function(err, req, res, next) {
-		res.status(err.status || 500);
-		res.render('error', {
-			message: err.message,
-			error: err
+		console.error(err.stack);
+		switch(err.type){
+			case 'database':
+				res.statusCode = 503;
+			default:
+				res.status(err.status || 500);
+		}
+		res.format({
+			html:function(){
+				res.render('error', {
+					message: err.message,
+					error: err
+				});
+			},
+			json:function(){
+				res.send({error:err.message})
+			},
+			text:function(){
+				res.send(err.message + '\n')
+			}
 		});
+		next(err);
 	});
 }
 
