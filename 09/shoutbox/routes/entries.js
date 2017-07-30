@@ -6,17 +6,6 @@ var Entry = require('../lib/entry');
 var validate = require('../lib/middleware/validate');
 var page = require('../lib/middleware/page');
 
-router.get('/', page(Entry.count, 5), function(req, res, next) {
-	var page = req.page;
-	Entry.getRange(page.from, page.to, (err,entries)=>{
-		if(err) return next(err);
-		res.render('entries',{
-			title:'Entries',
-			entries:entries,
-		});
-	});
-});
-
 router.get('/post', function(req, res, next) {
 	res.render('post',{title:'Post'});
 });
@@ -35,8 +24,19 @@ router.post('/post',
 
 	entry.save((err)=>{
 		if(err) return next(err);
-		res.redirect('.');
+		res.redirect('./');
 	})
+});
+
+router.get('/:page?', page(Entry.count, 5), function(req, res, next) {
+	var page = req.page;
+	Entry.getRange(page.from, page.to, (err,entries)=>{
+		if(err) return next(err);
+		res.render('entries',{
+			title:'Entries',
+			entries:entries,
+		});
+	});
 });
 
 module.exports = router;
