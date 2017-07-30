@@ -46,6 +46,24 @@ app.use('/api',api.route);
 app.use(function(req, res, next) {
 	var err = new Error('Not Found');
 	err.status = 404;
+	res.status(404).format({
+		html:function(){
+			res.render('404');
+		},
+		json:function(){
+			res.send({
+				message:'资源找不到'
+			});
+		},
+		xml:function(){
+			res.write('<error>\n');
+			res.write('<message>资源找不到</message>\n');
+			res.write('</error>\n');
+		},
+		text:function(){
+			res.send('资源找不到\n');
+		}
+	});
 	next(err);
 });
 
