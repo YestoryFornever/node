@@ -4,7 +4,8 @@ var User = require('../lib/user');
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
-	res.send('respond with a resource');
+	// res.send('respond with a resource');
+	res.redirect('./login');
 });
 
 router.get('/register', function(req, res, next) {
