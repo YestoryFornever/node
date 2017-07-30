@@ -14,19 +14,24 @@ router.post('/post',
 	validate.required('title'),
 	validate.lengthAbove('title',4),
 	function(req, res, next) {
-	var data = req.body;
+		var data = req.body;
 
-	var entry = new Entry({
-		'username':res.locals.user.name,
-		'title':data.title,
-		'body':data.body
-	});
+		var entry = new Entry({
+			'username':res.locals.user.name,
+			'title':data.title,
+			'body':data.body
+		});
 
-	entry.save((err)=>{
-		if(err) return next(err);
-		res.redirect('./');
-	})
-});
+		entry.save((err)=>{
+			if(err) return next(err);
+			if(req.remoteUser){
+				res.json({message:'新消息已添加'})
+			}else{
+				res.redirect('./');
+			}
+		})
+	}
+);
 
 router.get('/:page?', page(Entry.count, 5), function(req, res, next) {
 	var page = req.page;

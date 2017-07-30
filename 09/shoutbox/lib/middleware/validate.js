@@ -13,6 +13,7 @@ function getField(req,field) {
 exports.required = function(field){
 	field = parseField(field);
 	return function(req,res,next){
+		console.log(req.body);
 		if(getField(req,field)){
 			next();
 		}else{
