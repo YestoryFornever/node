@@ -9,11 +9,13 @@
 	<% include menu %>
 
 	<% entries.forEach(function(entry) { %>
-		<div class="entry">
-			<h3><%= entry.list %></h3>
-			<p><%= entry.body %></p>
-			<p>Posted by <%= entry.username %></p>
-		</div>
+		<ul class="entry">
+			<li>
+				<h3><%= entry.list %></h3>
+				<p><%= entry.body %></p>
+				<p>Posted by <%= entry.username %></p>
+			</li>
+		</ul>
 	<% }); %>
 </body>
 </html>
