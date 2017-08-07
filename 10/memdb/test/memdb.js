@@ -6,11 +6,13 @@ describe('memdb',function(){
 		memdb.clear();
 	})
 	describe('.save(doc)',function(){
-		it('should save the document',function(){
+		it('should save the document',function(done){
 			var pet = { name: 'Tobi' };
-			memdb.save(pet);
-			var ret = memdb.first({name: 'Tobi'});
-			assert(ret == pet);
+			memdb.save(pet,function(){
+				var ret = memdb.first({name: 'Tobi'});
+				assert(ret == pet);
+				done();
+			});
 		});
 	});
 	describe('.first(obj)',function(){
