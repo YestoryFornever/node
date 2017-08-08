@@ -38,7 +38,7 @@ var server = http.createServer(function(req, res) {
 console.log(8000);
 server.listen(8000);
 
-function blogPage(entries){
+/*function blogPage(entries){
 	var output = '<html>'
 		+'<head>'
 		+'<style type="text/css">'
@@ -56,4 +56,12 @@ function blogPage(entries){
 	});
 	output += '</body></html>';
 	return output;
+}*/
+
+var ejs = require('ejs');
+var template = fs.readFileSync('./template/blog_page.ejs','utf8');
+function blogPage(entries){
+	var values = {entries:entries};
+	console.log(values);
+	return ejs.render(template, {locals:values});
 }
