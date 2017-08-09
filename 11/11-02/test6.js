@@ -1,7 +1,7 @@
 let ejs = require('ejs');
 let fs = require('fs');
 let http = require('http');
-let filename = './template/students.ejs';
+let filename = './template/test8.ejs';
 
 let students = [
 	{name: 'Rick',age:23},
@@ -13,7 +13,9 @@ let server = http.createServer(function(req,res){
 	if(req.url=='/'){
 		fs.readFile(filename,function(err,data){
 			let template = data.toString();
-			let context = { students: students};
+			let context = { students: students,
+				message: 'asdfasdf'	
+			};
 			let output = ejs.render(template,context);
 			res.setHeader('Content-Type','text/html');
 			res.end(output);

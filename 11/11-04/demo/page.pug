@@ -1,7 +1,21 @@
 extends layout
+baseUrl = "http://code.jquery.com/jquery-1.12.4.min.js"
 
 block title
 	title Messages
+
+block style
+	link(rel="stylesheets", href= baseUrl+"themes/flick/jquery-ui.css")
+
 block content
+	count = 0
 	each message in messages
-		p= message
+		- count = count + 1
+		script
+			$().ready(function(){
+				$("#message_#{count}").dialog({
+					height:140,
+					modal:true
+				});
+			});
+			!='<div id="message_' + count + '">' + message + '</div>'
