@@ -10,3 +10,7 @@ if(process.env.DEBUG){
 debug('this is a debug call');
 console.log('HW');
 debug('this is another debug call');
+
+process.on('exit',function(code){
+	console.log('Exiting...');
+});
