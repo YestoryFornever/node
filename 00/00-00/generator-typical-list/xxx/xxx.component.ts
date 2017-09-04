@@ -15,11 +15,12 @@ import { Item } from './classes/item.class';
 	templateUrl: './<%= name %>.component.html',
 	styleUrls: [
 		'./<%= name %>.component.scss',
-		'../../../../../scss/typical-list/header.scss',
-		'../../../../../scss/typical-list/table.scss',
-		'../../../../../scss/typical-list/condition.scss',
-		'../../../../../scss/typical-list/order.scss',
+		'../../../../common/scss/typical-list/header.scss',
+		'../../../../common/scss/typical-list/table.scss',
+		'../../../../common/scss/typical-list/condition.scss',
+		'../../../../common/scss/typical-list/order.scss',
 	],
+	providers: [<%= upCaseName %>Service]
 })
 export class <%= upCaseName %>Component implements OnInit{
 	constructor(
@@ -55,8 +56,8 @@ export class <%= upCaseName %>Component implements OnInit{
 		this.forAsynTypeAhead.source = Observable.create((observer:any) => {
 			this.<%= hump %>Service
 				.demo(this.condition.forAsync)
-				.subscribe(
-					data => {
+				.then(
+					(data:any) => {
 						observer.next(data)
 					},
 					error => this.errorMsg = error
@@ -78,14 +79,14 @@ export class <%= upCaseName %>Component implements OnInit{
 			pageSize:this.pageParams.itemsPerPage,
 			orderBy:null,
 			sortType:'ASC',
-			forAsync:this.condition.forAsync,
-			startTime:this.condition.startTime.getTime(),
-			endTime:this.condition.endTime.getTime(),
+			forAsync:this.conditions.forAsync,
+			startTime:this.conditions.startTime.getTime(),
+			endTime:this.conditions.endTime.getTime(),
 		};
 		console.log(param);
 		this.<%= hump %>Service.demo(param)
-			.subscribe(
-				res => {
+			.then(
+				(res:any) => {
 					console.log(res);
 					this.list = res.list;
 					this.pageParams.totalItems = res.page["totalResult"];
@@ -99,7 +100,7 @@ export class <%= upCaseName %>Component implements OnInit{
 
 	// 排序
 	Order(ord:any,type:any){
-		this.condition.orderBy = ord+' '+type;
+		this.conditions.orderBy = ord+' '+type;
 		this.getList();
 	}
 }

@@ -13,7 +13,7 @@ export class Condition{
 	orderBy:string;
 	sortType:string;
 	radio:string;
-	checkbox:string;
+	checkbox:Array<any> = [];
 	checkboxPattern:Array<object> = [
 		{
 			name:'有效',

@@ -22,19 +22,19 @@
 			<div class="condition">
 				<label class="text-right">时间</label>
 				<div class="condition-input">
-					<p-calendar [(ngModel)]="condition.startTime" 
-					[maxDate]="condition.endTime"
+					<p-calendar [(ngModel)]="conditions.startTime" 
+					[maxDate]="conditions.endTime"
 					[locale]="calenderLocale"></p-calendar>
 					&nbsp;to&nbsp;
-					<p-calendar [(ngModel)]="condition.endTime"  
-					[minDate]="condition.startTime"
+					<p-calendar [(ngModel)]="conditions.endTime"  
+					[minDate]="conditions.startTime"
 					[locale]="calenderLocale"></p-calendar>
 				</div>
 			</div>
 			<div class="condition">
 				<label class="text-right">姓名</label>
 				<div class="condition-input">
-					<select class="form-control" [(ngModel)]="condition.forSelect" (ngModelChange)="fn($event)">
+					<select class="form-control" [(ngModel)]="conditions.forSelect" (ngModelChange)="fn($event)">
 						<option value="" selected></option>
 						<option value="{{item.id}}" *ngFor="let item of forSelects">{{item.name}}</option>
 					</select>
@@ -44,7 +44,7 @@
 				<label class="text-right">模糊匹配</label>
 				<div class="condition-input">
 					<input type="text" class="form-control" name="abbreviationEP" 
-						[(ngModel)]="condition.forAsyn"
+						[(ngModel)]="conditions.forAsyn"
 						[typeahead]="forAsynTypeAhead.source" 
 						[typeaheadOptionsLimit]="forAsynTypeAhead.limit"
 						(typeaheadOnSelect)="forAsynTypeAhead.select($event)"
