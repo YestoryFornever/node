@@ -55,7 +55,7 @@ export class <%= upCaseName %>Component implements OnInit{
 	asynForAsyn(){
 		this.forAsynTypeAhead.source = Observable.create((observer:any) => {
 			this.<%= hump %>Service
-				.demo(this.condition.forAsync)
+				.demo(this.conditions.forAsync)
 				.then(
 					(data:any) => {
 						observer.next(data)
