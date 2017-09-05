@@ -4,6 +4,7 @@ import { NgForm } from '@angular/forms';
 import { Observable } from 'rxjs/Observable';
 import { ActivatedRoute, Router, Params } from '@angular/router';
 
+import { LibService } from 'common';
 import { <%= upCaseName %>Service } from './<%= name %>.service';
 
 import { TypeAhead } from './classes/typeahead.class';
@@ -24,6 +25,7 @@ import { Item } from './classes/item.class';
 })
 export class <%= upCaseName %>Component implements OnInit{
 	constructor(
+		private lib: LibService,
 		private <%= hump %>Service:<%= upCaseName %>Service,
 		private changeDetectorRef:ChangeDetectorRef,
 		private activatedRoute:ActivatedRoute,
@@ -40,14 +42,6 @@ export class <%= upCaseName %>Component implements OnInit{
 	xxx:any;
 	fn(){}
 	errorMsg:string;
-	calenderLocale:Object = {
-		firstDayOfWeek: 0,
-		dayNames: ["周日", "周一", "周二", "周三", "周四", "周五", "周六"],
-		dayNamesShort: ["日", "一", "二", "三", "四", "五", "六"],
-		dayNamesMin: ["日", "一", "二", "三", "四", "五", "六"],
-		monthNames: [ "一月","二月","三月","四月","五月","六月","七月","八月","九月","十月","十一月","十二月" ],
-		monthNamesShort: [ "Jan", "Feb", "Mar", "Apr", "May", "Jun","Jul", "Aug", "Sep", "Oct", "Nov", "Dec" ]
-	};
 
 	list:Item[]=[];
 

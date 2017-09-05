@@ -24,11 +24,11 @@
 				<div class="condition-input">
 					<p-calendar [(ngModel)]="conditions.startTime" 
 					[maxDate]="conditions.endTime"
-					[locale]="calenderLocale"></p-calendar>
+					[locale]="lib.calender"></p-calendar>
 					&nbsp;to&nbsp;
 					<p-calendar [(ngModel)]="conditions.endTime"  
 					[minDate]="conditions.startTime"
-					[locale]="calenderLocale"></p-calendar>
+					[locale]="lib.calender"></p-calendar>
 				</div>
 			</div>
 			<div class="condition">
